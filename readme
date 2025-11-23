@@ -1,0 +1,80 @@
+# Revoo IoT – Smart Workstation (Futuro do Trabalho)
+
+> Projeto de **IoT aplicado ao Futuro do Trabalho**, com monitoramento em tempo real de condições de trabalho e alertas inteligentes para bem-estar e produtividade.
+
+---
+
+## 👥 Integrantes
+- **Renato Bezerra – RM560928**
+- **Victor Rodrigues – RM560087**
+
+---
+
+## 🎯 Objetivo do Projeto
+Desenvolver uma solução **IoT** para o **Revoo**, capaz de coletar dados do ambiente de trabalho (home office/escritório), processar essas informações em tempo real e gerar alertas automáticos para melhorar conforto, produtividade e saúde no trabalho.
+
+A solução monitora:
+- **Temperatura e Umidade** (conforto térmico)
+- **Luminosidade** (qualidade do ambiente)
+- **Presença/Sedentarismo** (tempo contínuo sem pausas)
+
+E atua com:
+- **Alerta sonoro (buzzer)**
+- **Alerta visual (LED)**
+
+---
+
+## 🧠 Contexto: Futuro do Trabalho
+Com o aumento de trabalho remoto/híbrido, muitas pessoas operam em ambientes improvisados e ficam longos períodos sem pausas adequadas.  
+O Revoo IoT propõe uma estação inteligente que ajuda o usuário a manter um ambiente ideal e rotinas mais saudáveis durante o expediente.
+
+---
+
+## 🏗️ Arquitetura da Solução
+**Fluxo geral:**
+1. **ESP32 (simulado no Wokwi)** coleta dados dos sensores.
+2. Envia telemetria via **MQTT (JSON)**.
+3. **Node-RED** atua como gateway:
+   - recebe dados
+   - calcula score de conforto
+   - detecta sedentarismo
+   - envia comandos de alerta
+4. Dashboard exibe dados em tempo real + histórico.
+
+📌 **Imagem do node red e do Wokwi:**
+![alt text](image.png)
+
+---
+
+![alt text](imagewokwi.png)
+
+## 🔌 Componentes Utilizados
+### Hardware (simulado)
+- ESP32 DevKit v1  
+- DHT22 – temperatura e umidade  
+- Sensor de luz (LDR módulo AO/DO) – luminosidade  
+- PIR – presença/movimento  
+- Buzzer – alerta sonoro  
+- LED – alerta visual  
+
+### Software / Gateway
+- Node-RED  
+- MQTT Broker (HiveMQ público)
+
+---
+
+## 📡 Tópicos MQTT
+### Publicação (telemetria)
+**Topic:**  
+`revoo/workstation/esp32-01/telemetry`
+
+**Exemplo de payload:**
+```json
+{
+  "deviceId": "esp32-01",
+  "temp": 25.7,
+  "hum": 56.2,
+  "lux": 320,
+  "presence": true,
+  "sedentaryMin": 38
+}

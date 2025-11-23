@@ -1,0 +1,432 @@
+[
+    {
+        "id": "tab_revoo",
+        "type": "tab",
+        "label": "Workstation Monitor",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "mqtt_in_telemetry",
+        "type": "mqtt in",
+        "z": "tab_revoo",
+        "name": "Recebe Telemetria",
+        "topic": "revoo/workstation/esp32-01/telemetry",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "hivemq_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "gauge_temp",
+                "gauge_hum",
+                "text_sedentary",
+                "chart_lux",
+                "led_presence",
+                "debug_msg"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_out_cmd",
+        "type": "mqtt out",
+        "z": "tab_revoo",
+        "name": "Envia Comandos",
+        "topic": "revoo/workstation/esp32-01/cmd",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "hivemq_broker",
+        "x": 650,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "debug_msg",
+        "type": "debug",
+        "z": "tab_revoo",
+        "name": "Debug JSON",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "change_lux_path",
+        "type": "change",
+        "z": "tab_revoo",
+        "name": "Extract Lux",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.lux",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "chart_lux"
+            ]
+        ]
+    },
+    {
+        "id": "btn_red",
+        "type": "ui_button",
+        "z": "tab_revoo",
+        "name": "",
+        "group": "group_ctrl",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "RED",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "red",
+        "className": "",
+        "icon": "",
+        "payload": "{\"led\":\"red\"}",
+        "payloadType": "json",
+        "topic": "revoo/workstation/esp32-01/cmd",
+        "topicType": "str",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "mqtt_out_cmd"
+            ]
+        ]
+    },
+    {
+        "id": "btn_green",
+        "type": "ui_button",
+        "z": "tab_revoo",
+        "name": "",
+        "group": "group_ctrl",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "GREEN",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "green",
+        "className": "",
+        "icon": "",
+        "payload": "{\"led\":\"green\"}",
+        "payloadType": "json",
+        "topic": "revoo/workstation/esp32-01/cmd",
+        "topicType": "str",
+        "x": 130,
+        "y": 480,
+        "wires": [
+            [
+                "mqtt_out_cmd"
+            ]
+        ]
+    },
+    {
+        "id": "btn_blue",
+        "type": "ui_button",
+        "z": "tab_revoo",
+        "name": "",
+        "group": "group_ctrl",
+        "order": 5,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "BLUE",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "blue",
+        "className": "",
+        "icon": "",
+        "payload": "{\"led\":\"blue\"}",
+        "payloadType": "json",
+        "topic": "revoo/workstation/esp32-01/cmd",
+        "topicType": "str",
+        "x": 130,
+        "y": 520,
+        "wires": [
+            [
+                "mqtt_out_cmd"
+            ]
+        ]
+    },
+    {
+        "id": "btn_buzzer",
+        "type": "ui_button",
+        "z": "tab_revoo",
+        "name": "",
+        "group": "group_ctrl",
+        "order": 6,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "ALERTAR (BUZZER)",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "orange",
+        "className": "",
+        "icon": "fa-bell",
+        "payload": "{\"buzzer\":1}",
+        "payloadType": "json",
+        "topic": "revoo/workstation/esp32-01/cmd",
+        "topicType": "str",
+        "x": 150,
+        "y": 580,
+        "wires": [
+            [
+                "mqtt_out_cmd"
+            ]
+        ]
+    },
+    {
+        "id": "btn_off",
+        "type": "ui_button",
+        "z": "tab_revoo",
+        "name": "",
+        "group": "group_ctrl",
+        "order": 7,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "DESLIGAR LEDS",
+        "tooltip": "",
+        "color": "black",
+        "bgcolor": "white",
+        "className": "",
+        "icon": "fa-power-off",
+        "payload": "{\"led\":\"off\"}",
+        "payloadType": "json",
+        "topic": "revoo/workstation/esp32-01/cmd",
+        "topicType": "str",
+        "x": 150,
+        "y": 620,
+        "wires": [
+            [
+                "mqtt_out_cmd"
+            ]
+        ]
+    },
+    {
+        "id": "text_sedentary",
+        "type": "ui_text",
+        "z": "tab_revoo",
+        "group": "group_ctrl",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Tempo Sentado",
+        "label": "Tempo Sentado (min):",
+        "format": "{{msg.payload.sedentaryMin}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 420,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "led_presence",
+        "type": "ui_text",
+        "z": "tab_revoo",
+        "group": "group_ctrl",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Presença",
+        "label": "Presença Detectada:",
+        "format": "{{msg.payload.presence === true ? 'SIM' : 'NÃO'}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 400,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "gauge_temp",
+        "type": "ui_gauge",
+        "z": "tab_revoo",
+        "name": "Temperatura",
+        "group": "group_env",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperatura",
+        "label": "°C",
+        "format": "{{msg.payload.temp}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 410,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "gauge_hum",
+        "type": "ui_gauge",
+        "z": "tab_revoo",
+        "name": "Umidade",
+        "group": "group_env",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Umidade",
+        "label": "%",
+        "format": "{{msg.payload.hum}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ca3838",
+            "#e6e600",
+            "#00b500"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 400,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "chart_lux",
+        "type": "ui_chart",
+        "z": "tab_revoo",
+        "name": "Luminosidade",
+        "group": "group_env",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "Luz (Lux)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1000",
+        "removeOlder": "5",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 410,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "hivemq_broker",
+        "type": "mqtt-broker",
+        "name": "HiveMQ Public",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "group_ctrl",
+        "type": "ui_group",
+        "z": "tab_revoo",
+        "name": "Controles & Alertas",
+        "tab": "ui_tab_main",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "group_env",
+        "type": "ui_group",
+        "z": "tab_revoo",
+        "name": "Ambiente",
+        "tab": "ui_tab_main",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "ui_tab_main",
+        "type": "ui_tab",
+        "name": "Home Office Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "86d5fb7fc12e19f2",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
