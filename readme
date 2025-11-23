@@ -41,12 +41,8 @@ O Revoo IoT propõe uma estação inteligente que ajuda o usuário a manter um a
    - envia comandos de alerta
 4. Dashboard exibe dados em tempo real + histórico.
 
-📌 **Imagem do node red e do Wokwi:**
-![alt text](image.png)
+📌 **Imagem do node red e do Wokwi na pasta IMG**
 
----
-
-![alt text](imagewokwi.png)
 
 ## 🔌 Componentes Utilizados
 ### Hardware (simulado)
